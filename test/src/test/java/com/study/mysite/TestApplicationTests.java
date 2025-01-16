@@ -39,7 +39,10 @@ class TestApplicationTests {
 		this.questionRepository.save(q3);
 		
 		List<Question> all = this.questionRepository.findAll();
-		assertEquals(5, all.size());
+//		assertEquals(5, all.size());
+		
+		String firstSubject = all.get(0).getSubject();
+		assertEquals("spring", firstSubject);
 	}
 
 }
