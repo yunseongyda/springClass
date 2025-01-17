@@ -1,6 +1,7 @@
 package com.study.mysite;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,6 +49,7 @@ class TestApplicationTests {
 		
 //		Optional : null이 와도 에러 안 냄
 		Optional<Question> q = this.questionRepository.findById(13);
+		// isPresent() : 값이 있으면 T, 없으면 F
 		if (q.isPresent()) {
 			Question qs = q.get();
 			assertEquals("I love NMIXX", qs.getSubject());
@@ -67,7 +69,15 @@ class TestApplicationTests {
 		assertEquals(17, this.questionRepository.count());
 		*/
 		
-		
+		Optional<Question> q = this.questionRepository.findById(4);
+		assertTrue(q.isPresent());
+		Question qs = q.get();
+		// 제목 수정하기
+		qs.setSubject("수정된 제목");
+		this.questionRepository.save(qs);
+		// 삭제하기
+		this.questionRepository.delete(qs);
+		assertEquals(16, this.questionRepository.count());
 	}
 
 }
