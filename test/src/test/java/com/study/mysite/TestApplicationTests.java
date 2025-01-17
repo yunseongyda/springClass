@@ -3,7 +3,6 @@ package com.study.mysite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,6 @@ import com.study.mysite.sbb.answer.Answer;
 import com.study.mysite.sbb.answer.AnswerRepository;
 import com.study.mysite.sbb.question.Question;
 import com.study.mysite.sbb.question.QuestionRepository;
-
 
 @SpringBootTest
 class TestApplicationTests {
@@ -31,6 +29,8 @@ class TestApplicationTests {
 	@Test
 	void testJpa() {
 		/*
+	@Test
+	void testJpa() {
 		Question q1 = new Question();
 		q1.setSubject("what is mean of name the Spring boot");
 		q1.setContent("I wanna know how to use Spring boot");
@@ -53,6 +53,7 @@ class TestApplicationTests {
 //		assertEquals(5, all.size());
 		
 		String firstSubject = all.get(0).getSubject();
+<<<<<<< HEAD
 //		assertEquals("spring", firstSubject);
 		
 //		Optional : null이 와도 에러 안 냄
@@ -112,6 +113,7 @@ class TestApplicationTests {
 		assertEquals(1, answerList.size());
 		assertEquals("this is answer.", answerList.get(0).getContent());
 		
+
 	}
 
 }
