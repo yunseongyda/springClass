@@ -1,7 +1,9 @@
 // simple black board 질의응답 게시판
-package com.study.mysite.sbb;
+package com.study.mysite.sbb.answer;
 
 import java.time.LocalDateTime;
+
+import com.study.mysite.sbb.question.Question;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
