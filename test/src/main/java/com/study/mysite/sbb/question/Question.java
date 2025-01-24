@@ -21,7 +21,7 @@ import lombok.Setter;
 @Entity
 public class Question { // question entity 질문 개체(테이블)
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY) // 자동 생성, IDENTITY로 하면 1씩 자동 증가
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // 자동 생성으로 1씩 증가, IDENTITY : 따로따로 구분짓기
 	private Integer id;
 	
 	@Column(length=40) // 열 세부 설정: 길이 40자 제한
