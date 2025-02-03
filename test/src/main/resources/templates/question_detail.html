@@ -1,0 +1,35 @@
+<html layout:decorate="~{layout}">
+<div class="container my-5" layout:fragment="content">
+	<div class="row mb-2">
+		<div class="col-12 text-center">
+			<h1>[[${question.subject}]]</h1>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body my-1 text-center">
+			[[${question.content}]]
+		</div>
+	</div>
+	<hr>
+  <div class="row">
+    <div class="col-12">
+      <h4 th:text="|There are ${#lists.size(question.answerList)} answers.|">Answers</h4>
+      <!-- ${#lists.size()} 는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
+       <div>
+        <ul>
+          <li th:each="answer: ${question.answerList}">[[${answer.content}]]</li>
+        </ul>
+       </div>
+    </div>
+  </div>
+	<div class="row">
+		<div class="col-12">
+			<form th:action="@{|../../answer/create/${question.id}|}" method="post">
+				<div class="form-group">
+					<textarea class="form-control" name="content" id="" cols="30" rows="10"></textarea>
+				</div>
+				<input type="submit" value="add comment" />
+			</form>
+		</div>
+	</div>
+</html>
