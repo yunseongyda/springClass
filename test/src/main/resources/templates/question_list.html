@@ -1,21 +1,33 @@
 <html layout:decorate="~{layout}">
 	<div layout:fragment="content" class="container my-5">
-		<h1>질문 게시판</h1>
-		<table border="1">
-			<thead>
+		<div class="row">
+			<div class="col-12 text-center mb-5 jumbotron">
+				<h1>Question Board</h1>
+			</div>
+		</div>
+		<table class="table table-striped">
+			<thead class="table-secondary">
 				<tr>
-					<th>제목</th>
-					<th>작성일시</th>
+					<th>No.</th>
+					<th>Title</th>
+					<th>Upload Date</th>
 				</tr>
 			</thead>
 			<tbody>
-			<tr th:each="question : ${questionList}">
+			<tr th:each="question, loop : ${questionList}">
+				<td th:text="${loop.count}"></td>
 				<td>
 					<a th:href="@{|/question/detail/${question.id}|}"  th:text="${question.subject}"></a>
 				</td>
-				<td th:text="${question.createDate}"></td>
+				<td th:text="${#temporals.format(question.createDate, 'MMMM dd, yyyy')}"></td>
 			</tr>
 		</tbody>
 		</table>
+
+		<!-- 질문등록 버튼 -->
+		<div class="row">
+			<div class="col-12 text-right">
+				<a th:href="@{/question/form}" class="btn btn-primary">Regist Question</a>
+			</div>
 	</div>
 </html>

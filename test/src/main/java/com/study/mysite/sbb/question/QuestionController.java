@@ -34,4 +34,10 @@ public class QuestionController {
 		model.addAttribute("question", question);
 		return "question_detail";
 	}
+
+	// 질문 등록 페이지로 이동
+	@GetMapping("/form")
+	public String create() {
+		return "question_form";
+	}
 }
