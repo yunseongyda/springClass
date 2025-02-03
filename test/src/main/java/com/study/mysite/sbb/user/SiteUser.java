@@ -14,7 +14,7 @@ import lombok.Setter;
 public class SiteUser {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY : 따로따로 구분짓기
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY : 따로따로 구분짓기, AUTO : 무슨 DB든 알잘딱 해줌
 	private long id;
 	
 	@Column(unique=true)

@@ -22,9 +22,8 @@ public class HelloController {
 		return "main";
 	}
 
-	@GetMapping("/")
-	public String root() {
-		// return "redirect:/question/list";
-		return "index";
-	}
+	/*
+	 * @GetMapping("/") public String root() { // return "redirect:/question/list";
+	 * return "index"; }
+	 */
 }
