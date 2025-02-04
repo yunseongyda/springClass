@@ -1,5 +1,6 @@
 package com.study.mysite.sbb.user;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,24 @@ public class UserController {
 			return "signUp_form";
 		}
 		
-		userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1());
+		try {
+			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword2());
+		} catch (DataIntegrityViolationException e) {
+			e.printStackTrace();
+			bindingResult.reject("signupFaild", "이미 등록된 사용자입니다.");
+			return "signUp_form";
+		} catch (Exception e) {
+			e.printStackTrace();
+			bindingResult.reject("signupFaild", e.getMessage());
+			return "signUp_form";
+		}
+		
+		
 		return "redirect:/";
+	}
+	
+	@GetMapping("/login")
+	public String signIn() {
+		return "signIn_form";
 	}
 }
