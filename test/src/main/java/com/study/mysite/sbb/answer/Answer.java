@@ -4,6 +4,7 @@ package com.study.mysite.sbb.answer;
 import java.time.LocalDateTime;
 
 import com.study.mysite.sbb.question.Question;
+import com.study.mysite.sbb.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,4 +30,7 @@ public class Answer { // answer entity 답변 개체(테이블)
 	
 	@ManyToOne // N:1 (외래키)
 	private Question question;
+	
+	@ManyToOne
+	private SiteUser author;
 }
