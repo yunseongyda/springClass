@@ -23,7 +23,8 @@ public class SecurityConfig {
 		.permitAll())	// AntPathRequestMatcher 매개변수로 들어온 url 다 허용
 		.csrf((csrf)->csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))) // h2-console은 내 페이지가 아니라서 csrf 공격을 방어하는 로직을 무시
 		.headers((headers)->headers.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))) // Deny로 하면 내 웹을 가져올 때(IFrame) 못 가져오게 하는데 SAMEORIGIN으로 하면 걍 보여줌
-		.formLogin((formLogin)->formLogin.loginPage("/user/login").defaultSuccessUrl("/"));
+		.formLogin((formLogin)->formLogin.loginPage("/user/login").defaultSuccessUrl("/"))
+		.logout((logout)->logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/signOut")).logoutSuccessUrl("/").invalidateHttpSession(true)); // invalidateHttpSession(true) : 세션 만료
 		// 인증되지 않은 모든 페이지의 요청을 허락한다.
 		return http.build();
 	}
