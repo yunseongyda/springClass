@@ -1,0 +1,14 @@
+<html layout:decorate="~{layout}">
+<div class="container my-5" layout:fragment="content">
+	<h5 class="my-5 border-bottom pb-2 display-4">Edit answer</h5>
+	
+	<form method="post" th:object="${answerForm}">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+		<div class="form-group">
+			<label for="exampleFormControlTextarea1">내용</label>
+			<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" th:field="*{content}"></textarea>
+		</div>
+		<input type="submit" class="btn btn-primary" value="등록" />
+	</form>
+</div>

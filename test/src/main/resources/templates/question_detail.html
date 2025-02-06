@@ -15,8 +15,8 @@
 		<div class="col"></div>
 		<div class="col" th:if="${question.author != null}">writer : [[${question.author.username}]]</div>
 		<div class="col">
-			<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-outline-info" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Edit your post</a>
-			<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-outline-info" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Remove your post</a>
+			<a class="btn btn-outline-info" th:href="@{|/question/modify/${question.id}|}"  th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Edit your post</a>
+			<a class="btn btn-outline-danger" id="deletePost" href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"  th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Delete your post</a>
 		</div>
 		
 	</div>
@@ -34,6 +34,7 @@
 						<span class="badge badge-pill badge-secondary text-center">[[${answer.author.username}]]</span>
 					<!-- 날짜 출력 배지 -->
 					 <span class="badge badge-pill badge-info text-center" th:text="${#temporals.format(answer.createDate, 'MMM dd, yyyy')}"></span>
+					 <a class="badge badge-pill badge-warning text-center" th:href="@{|/answer/modify/${answer.id}|}"  th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"  sec:authorize="isAuthenticated()">Edit your answer</a>
 					</div>
 				</div>
 			</div>
@@ -52,4 +53,6 @@
 			</form>
 		</div>
 	</div>
+	
+	<script src="/js/script.js" layout:fragment="script"></script>
 </html>

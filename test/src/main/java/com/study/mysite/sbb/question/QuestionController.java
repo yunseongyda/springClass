@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,13 +55,13 @@ public class QuestionController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/form")
-	public String questionCreate(QuestionForm questionForm) {
+	public String createQuestion(QuestionForm questionForm) {
 		return "question_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/form")
-	public String questionCreate(@Valid QuestionForm questionForm,  BindingResult bindingResult, Principal principal) {
+	public String createQuestion(@Valid QuestionForm questionForm,  BindingResult bindingResult, Principal principal) {
 		
 		if (bindingResult.hasErrors()) return "question_form";
 		
@@ -72,7 +73,7 @@ public class QuestionController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{id}")
-	public String questionModify(QuestionForm questionForm, Principal principal, @PathVariable("id") Integer id) {
+	public String modifyQuestion(QuestionForm questionForm, Principal principal, @PathVariable("id") Integer id) {
 		
 		Question question = this.questionService.getQuestion(id);
 		if (!question.getAuthor().getUsername().equals(principal.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You don't have permission for Edit.");
@@ -84,7 +85,7 @@ public class QuestionController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{id}")
-	public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal, @PathVariable("id") Integer id) {
+	public String modifyQuestion(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal, @PathVariable("id") Integer id) {
 		
 		if (bindingResult.hasErrors()) return "question_form";
 		
@@ -94,5 +95,17 @@ public class QuestionController {
 		this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
 		
 		return String.format("redirect:/question/detail/%s", id);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/delete/{id}")
+	public String deletePost(Principal principal, @PathVariable("id") Integer id) {
+		Question question = this.questionService.getQuestion(id);
+		if (!question.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You don't have permission for delete");
+		}
+		this.questionService.delete(question);
+		
+		return "redirect:/question/list";
 	}
 }

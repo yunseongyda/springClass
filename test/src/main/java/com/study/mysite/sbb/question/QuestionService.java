@@ -48,4 +48,8 @@ public class QuestionService {
 	  q.setModifyDate(LocalDateTime.now());
 	  this.questionRepository.save(q);
   }
+  
+  public void delete(Question question) {
+	  this.questionRepository.delete(question);
+  }
 }
