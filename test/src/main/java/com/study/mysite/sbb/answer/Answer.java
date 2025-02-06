@@ -33,4 +33,6 @@ public class Answer { // answer entity 답변 개체(테이블)
 	
 	@ManyToOne
 	private SiteUser author;
+	
+	private LocalDateTime modifyDate; 
 }

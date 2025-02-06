@@ -39,4 +39,6 @@ public class Question { // question entity 질문 개체(테이블)
 	
 	@ManyToOne
 	private SiteUser author;
+	
+	private LocalDateTime modifyDate; 
 }

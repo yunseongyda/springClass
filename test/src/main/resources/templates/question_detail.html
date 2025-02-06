@@ -11,7 +11,15 @@
 			[[${question.content}]]
 		</div>
 	</div>
-	<div class="text-center my-2">writer : [[${question.author.username}]]</div>
+	<div class="row text-center my-2">
+		<div class="col"></div>
+		<div class="col" th:if="${question.author != null}">writer : [[${question.author.username}]]</div>
+		<div class="col">
+			<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-outline-info" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Edit your post</a>
+			<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-outline-info" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Remove your post</a>
+		</div>
+		
+	</div>
 	<hr>
   <div class="row">
     <div class="col-12">
@@ -19,18 +27,16 @@
       <!-- ${#lists.size()} 는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
        <div>
         <ul class="list-unstyled">
-					<div class="card bg-light my-2" th:each="answer: ${question.answerList}">
-						<div class="card-body d-flex justify-content-between">
-							<li>[[${answer.content}]]</li>
-							<div>
-								<span class="badge badge-pill badge-secondary text-center">[[${answer.author.username}]]</span>
-							<!-- 날짜 출력 배지 -->
-							 <span class="badge badge-pill badge-info text-center" th:text="${#temporals.format(answer.createDate, 'MMM dd, yyyy')}"></span>
-							</div>
-							
-						</div>
+			<div class="card bg-light my-2" th:each="answer: ${question.answerList}">
+				<div class="card-body d-flex justify-content-between">
+					<li>[[${answer.content}]]</li>
+					<div>
+						<span class="badge badge-pill badge-secondary text-center">[[${answer.author.username}]]</span>
+					<!-- 날짜 출력 배지 -->
+					 <span class="badge badge-pill badge-info text-center" th:text="${#temporals.format(answer.createDate, 'MMM dd, yyyy')}"></span>
 					</div>
-          
+				</div>
+			</div>
         </ul>
        </div>
     </div>
