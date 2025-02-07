@@ -12,47 +12,79 @@
 		</div>
 	</div>
 	<div class="row text-center my-2">
-		<div class="col"></div>
+		<div class="col">
+			<a class="btn btn-outline-primary" th:href="@{|/question/vote/${question.id}|}">
+				Like post &nbsp;
+				<span class="badge badge-light">[[${#lists.size(question.voter)}]]</span>
+			</a>
+		</div>
 		<div class="col" th:if="${question.author != null}">writer : [[${question.author.username}]]</div>
 		<div class="col">
-			<a class="btn btn-outline-info" th:href="@{|/question/modify/${question.id}|}"  th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Edit your post</a>
-			<a class="btn btn-outline-danger" id="deletePost" href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"  th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"  sec:authorize="isAuthenticated()">Delete your post</a>
+			<a class="btn btn-outline-warning" th:href="@{|/question/modify/${question.id}|}"
+				th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+				sec:authorize="isAuthenticated()">Edit post</a>
+			<a class="btn btn-outline-danger" id="deletePost" href="javascript:void(0);"
+				th:data-uri="@{|/question/delete/${question.id}|}"
+				th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+				sec:authorize="isAuthenticated()">Delete post</a>
 		</div>
-		
+
 	</div>
 	<hr>
-  <div class="row">
-    <div class="col-12">
-      <h4 th:text="|There are ${#lists.size(question.answerList)} answers.|">Answers</h4>
-      <!-- ${#lists.size()} 는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
-       <div>
-        <ul class="list-unstyled">
-			<div class="card bg-light my-2" th:each="answer: ${question.answerList}">
-				<div class="card-body d-flex justify-content-between">
-					<li>[[${answer.content}]]</li>
-					<div>
-						<span class="badge badge-pill badge-secondary text-center">[[${answer.author.username}]]</span>
-					<!-- 날짜 출력 배지 -->
-					 <span class="badge badge-pill badge-info text-center" th:text="${#temporals.format(answer.createDate, 'MMM dd, yyyy')}"></span>
-					 <a class="badge badge-pill badge-warning text-center" th:href="@{|/answer/modify/${answer.id}|}"  th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"  sec:authorize="isAuthenticated()">Edit your answer</a>
+	<div class="row">
+		<div class="col-12">
+			<h4 th:text="|There are ${#lists.size(question.answerList)} answers.|">Answers</h4>
+			<!-- ${#lists.size()} 는 타임리프에서 제공하는 문법으로 매개변수로 객체를 넣으면 해당 객체의 갯수를 리턴한다. -->
+			<div>
+				<ul class="list-unstyled">
+					<div class="card bg-light my-2" th:each="answer: ${question.answerList}">
+						<div class="card-body d-flex justify-content-between">
+							<li>[[${answer.content}]]</li>
+							<span>
+								<span
+									class="badge badge-pill badge-secondary text-center">[[${answer.author.username}]]</span>
+								<!-- 날짜 출력 배지 -->
+								<span th:if="${answer.modifyDate == null}">
+									<span class="badge badge-pill badge-info text-center"
+										th:text="${#temporals.format(answer.createDate, 'MMM dd, yyyy HH:mm')}"></span>
+								</span>
+								<span th:if="${answer.modifyDate != null}">
+									<span
+										class="badge badge-pill badge-info text-center">[[${#temporals.format(answer.modifyDate,
+										'MMM dd, yyyy HH:mm')}]]</span> <small
+										class="text-secondary">(Edited)</small>
+								</span>
+
+								<a class="badge badge-pill badge-warning text-center"
+									th:href="@{|/answer/modify/${answer.id}|}"
+									th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
+									sec:authorize="isAuthenticated()">Edit answer</a>
+								<a class="badge badge-pill badge-danger text-center" id="deleteAnswer"
+									href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
+									th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
+									sec:authorize="isAuthenticated()">Delete answer</a>
+						</div>
 					</div>
-				</div>
 			</div>
-        </ul>
-       </div>
-    </div>
-  </div>
+			</ul>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-12">
 			<form th:action="@{|../../answer/create/${question.id}|}" method="post">
 				<div class="form-group">
-					<textarea sec:authorize="isAnonymous()" disabled class="form-control" name="content" id="" cols="30" rows="10">Please sign in first</textarea>
-					<textarea sec:authorize="isAuthenticated()" class="form-control" name="content" id="" cols="30" rows="10"></textarea>
+					<textarea sec:authorize="isAnonymous()" disabled class="form-control" name="content" id="" cols="30"
+						rows="10">Please sign in first</textarea>
+					<textarea sec:authorize="isAuthenticated()" class="form-control" name="content" id="" cols="30"
+						rows="10"></textarea>
 				</div>
 				<input type="submit" value="add comment" />
 			</form>
 		</div>
 	</div>
-	
-	<script src="/js/script.js" layout:fragment="script"></script>
+</div>
+
+
+<script src="/js/script.js" layout:fragment="script"></script>
+
 </html>

@@ -100,6 +100,7 @@ public class QuestionController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete/{id}")
 	public String deletePost(Principal principal, @PathVariable("id") Integer id) {
+		
 		Question question = this.questionService.getQuestion(id);
 		if (!question.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You don't have permission for delete");
@@ -107,5 +108,16 @@ public class QuestionController {
 		this.questionService.delete(question);
 		
 		return "redirect:/question/list";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("vote/{id}")
+	public String votePost(Principal principal, @PathVariable("id") Integer id) {
+		
+		Question question = this.questionService.getQuestion(id);
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		this.questionService.vote(question, siteUser);
+		
+		return String.format("redirect:/question/detail/%s", id);
 	}
 }
