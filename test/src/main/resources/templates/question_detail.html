@@ -43,16 +43,20 @@
 							<span>
 								<span
 									class="badge badge-pill badge-secondary text-center">[[${answer.author.username}]]</span>
-								<!-- 날짜 출력 배지 -->
+								<span class="badge badge-pill badge-primary">
+									<a class="text-white" th:href="@{|/answer/vote/${answer.id}|}">
+										Like post &nbsp;
+										<span class="badge badge-light">[[${#lists.size(answer.voter)}]]</span>
+									</a>
+								</span>
+									<!-- 날짜 출력 배지 -->
 								<span th:if="${answer.modifyDate == null}">
 									<span class="badge badge-pill badge-info text-center"
 										th:text="${#temporals.format(answer.createDate, 'MMM dd, yyyy HH:mm')}"></span>
 								</span>
 								<span th:if="${answer.modifyDate != null}">
-									<span
-										class="badge badge-pill badge-info text-center">[[${#temporals.format(answer.modifyDate,
-										'MMM dd, yyyy HH:mm')}]]</span> <small
-										class="text-secondary">(Edited)</small>
+									<span class="badge badge-pill badge-info text-center">[[${#temporals.format(answer.modifyDate,'MMM dd, yyyy HH:mm')}]]</span>
+									<small class="text-secondary">(Edited)</small>
 								</span>
 
 								<a class="badge badge-pill badge-warning text-center"
@@ -63,6 +67,7 @@
 									href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
 									th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
 									sec:authorize="isAuthenticated()">Delete answer</a>
+							</span>
 						</div>
 					</div>
 			</div>
