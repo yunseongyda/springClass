@@ -3,6 +3,7 @@ package com.study.mysite.sbb.question;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.study.mysite.sbb.user.SiteUser;
@@ -32,11 +34,12 @@ public class QuestionController {
 	
 	// 게시판 리스트로 이동
 	@GetMapping("/list")
-	public String list(Model model) {
-		// List<Question> questionList = this.questionRepository.findAll();
-		List<Question> questionList = this.questionService.getList();
-		model.addAttribute("questionList", questionList);
-		return "question_list";
+	public String getQuestionList(Model model, @RequestParam(value ="page", defaultValue = "0") int page, @RequestParam(value = "kw" , defaultValue = "")String kw){
+	Page<Question> paging = this.questionService.getList(page, kw);
+	model.addAttribute("kw", kw);
+	model.addAttribute("page", page);
+	model.addAttribute("paging", paging);
+	return "question_list";
 	}
 
 	// 상세페이지로 이동

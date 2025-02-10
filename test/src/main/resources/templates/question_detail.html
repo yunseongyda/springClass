@@ -38,6 +38,7 @@
 			<div>
 				<ul class="list-unstyled">
 					<div class="card bg-light my-2" th:each="answer: ${question.answerList}">
+						<a th:id="|answer_${answer.id}|"></a>
 						<div class="card-body d-flex justify-content-between">
 							<li>[[${answer.content}]]</li>
 							<span>

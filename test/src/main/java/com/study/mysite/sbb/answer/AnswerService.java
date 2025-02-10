@@ -16,13 +16,16 @@ import lombok.RequiredArgsConstructor;
 public class AnswerService {
   private final AnswerRepository answerRepository;
 
-  public void create(String content, Question question, SiteUser author) {
-    Answer answer = new Answer();
+  public Answer create(String content, Question question, SiteUser author) {
+    
+	Answer answer = new Answer();
     answer.setContent(content);
     answer.setCreateDate(LocalDateTime.now());
     answer.setQuestion(question);
     answer.setAuthor(author);
     this.answerRepository.save(answer);
+    
+    return answer;
   }
   
   // 답변 수정 전에 답변 조회 먼저
